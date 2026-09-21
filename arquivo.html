@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARQUIVO · Alguém</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap');
+:root{--red:#a90000;--red2:#d01717;--ink:#050505;--paper:#d8d0c5;--muted:#8e8881;--line:rgba(165,0,0,.38)}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:#000;color:var(--paper)} body{font-family:'Cormorant Garamond',Georgia,serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% 25%,rgba(125,0,0,.12),transparent 42%),linear-gradient(90deg,rgba(0,0,0,.96),rgba(22,0,0,.18),rgba(0,0,0,.96));z-index:-2}
+body:after{content:"";position:fixed;inset:13px;border:1px solid rgba(140,0,0,.35);pointer-events:none;z-index:20}
+button,input{font:inherit}.wrap{max-width:1100px;margin:0 auto;padding:48px 28px 70px;position:relative}.hidden{display:none!important}
+.brand{text-align:center;letter-spacing:.5em;color:#b30000;font-family:Cinzel,serif;font-size:12px;margin-bottom:8px}.title{text-align:center;font-family:Cinzel,serif;font-weight:500;letter-spacing:.22em;font-size:clamp(28px,7vw,58px);color:#e0d8cf;text-shadow:0 0 18px rgba(140,0,0,.2);margin:0}.subtitle{text-align:center;color:#77716b;letter-spacing:.2em;text-transform:uppercase;font-size:11px;margin:14px 0 42px}
+.panel{background:rgba(5,5,5,.82);border:1px solid var(--line);box-shadow:0 0 40px rgba(100,0,0,.08),inset 0 0 50px rgba(100,0,0,.025);padding:28px;position:relative}.panel:before,.panel:after{content:"✦";position:absolute;color:#790000;font-size:15px}.panel:before{top:10px;left:13px}.panel:after{bottom:10px;right:13px}
+.login{max-width:430px;margin:8vh auto 0}.field{margin:0 0 18px}.field label{display:block;color:#aaa39b;text-transform:uppercase;letter-spacing:.18em;font-family:Cinzel,serif;font-size:10px;margin-bottom:8px}.field input{width:100%;background:#090909;border:1px solid #3a1919;color:#eee;padding:13px 14px;outline:none}.field input:focus{border-color:#a00000;box-shadow:0 0 12px rgba(160,0,0,.15)}
+.primary,.ghost{width:100%;padding:13px 16px;cursor:pointer;text-transform:uppercase;letter-spacing:.25em;font-family:Cinzel,serif;font-size:11px}.primary{background:#5e0000;border:1px solid #a60000;color:#eee}.primary:hover{background:#760000}.ghost{background:transparent;border:1px solid #4b1a1a;color:#b8afa6;margin-top:10px}.status{min-height:20px;text-align:center;color:#b51a1a;font-size:15px;margin-top:14px}.locknote{text-align:center;color:#5f5a55;font-size:14px;margin-top:18px;line-height:1.5}
+.toolbar{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap}.count{color:#888;letter-spacing:.12em;text-transform:uppercase;font-size:11px}.refresh{width:auto;margin:0;padding:10px 15px}.logout{width:auto;margin:0;padding:10px 15px;color:#9d7777}
+.empty{text-align:center;color:#777;padding:55px 15px;border:1px dashed #321515}.entries{display:grid;gap:12px}.entry{border:1px solid #321515;background:rgba(9,9,9,.86);padding:17px 18px;cursor:pointer;transition:.2s}.entry:hover{border-color:#7d0000;background:#0c0808}.entryHead{display:flex;align-items:center;justify-content:space-between;gap:20px}.entryName{font-family:Cinzel,serif;color:#ddd;letter-spacing:.08em;font-size:17px}.entryDate{color:#6e6964;font-size:13px}.entryArrow{color:#8d0000;font-size:18px}.detail{margin-top:20px}.back{width:auto;margin:0 0 20px;padding:9px 14px}.detailName{font-family:Cinzel,serif;color:#d9d0c7;font-size:28px;letter-spacing:.1em;margin:0 0 5px}.detailDate{color:#706b65;font-size:14px;margin-bottom:26px}.answer{border-top:1px solid #2e1414;padding:20px 0}.qnum{color:#8e0000;font-family:Cinzel,serif;font-size:10px;letter-spacing:.2em;margin-bottom:7px}.question{color:#9b958e;font-size:15px;line-height:1.45;margin-bottom:9px}.response{color:#e1dad1;font-size:18px;line-height:1.55;white-space:pre-wrap}.response.emptyAnswer{color:#555;font-style:italic}
+.fade{animation:fade .5s ease both}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:600px){.wrap{padding:38px 20px 55px}.panel{padding:22px 18px}.entryHead{align-items:flex-start}.entryDate{font-size:12px}.title{letter-spacing:.13em}.detailName{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">ARQUIVO</div>
+  <h1 class="title">ALGUÉM</h1>
+  <div class="subtitle">acesso restrito · registros</div>
+
+  <section id="loginView" class="panel login fade">
+    <div class="field"><label for="email">E-mail</label><input id="email" type="email" autocomplete="username" placeholder="seu e-mail"></div>
+    <div class="field"><label for="password">Senha</label><input id="password" type="password" autocomplete="current-password" placeholder="••••••••"></div>
+    <button id="loginBtn" class="primary" type="button">Entrar no arquivo</button>
+    <div id="loginStatus" class="status" aria-live="polite"></div>
+    <div class="locknote">Somente a conta autorizada pode consultar os registros.</div>
+  </section>
+
+  <section id="archiveView" class="hidden fade">
+    <div class="toolbar">
+      <div class="count" id="count">0 registros</div>
+      <div>
+        <button id="refreshBtn" class="ghost refresh" type="button">Atualizar</button>
+        <button id="logoutBtn" class="ghost logout" type="button">Sair</button>
+      </div>
+    </div>
+    <div id="listView" class="panel"><div id="entries" class="entries"></div></div>
+    <div id="detailView" class="panel detail hidden"></div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://kaujeiodvpjjfrwqfmsx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_nZd-iUk1cVYuk-L1YQJobA_H-nWxqJ7";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+const QUESTIONS = [
+"Qual sua relação com a Ordem? Por que você luta? Colocar sua vida em risco, se submeter a uma hierarquia, cumprir missões e objetivos. Por você? Pelos outros? Por algo maior? Ou simplesmente se enxerga como algo tão inferior e insignificante?",
+"Qual foi o maior erro que você já cometeu? A mancha que nunca desaparece? O tormento que persegue seus sonhos inquietos?",
+"O que é imperdoável? Algo que você nunca seria capaz de fazer, e desprezaria qualquer um responsável por isso? Qual sua relação com esse ato?",
+"Tudo começa pelo Sangue. Como foi a primeira vez que você encontrou o Sangue?",
+"O que mais gosta de fazer? Qual sua lembrança mais agradável? O que conforta seus sentimentos em momentos de horror?",
+"Qual seu maior desejo? Sua tentação secreta, interna, mais profunda e escura. O que você verdadeiramente deseja acima de todas as coisas?"
+];
+const loginView=document.getElementById('loginView'), archiveView=document.getElementById('archiveView'), loginStatus=document.getElementById('loginStatus'), entries=document.getElementById('entries'), count=document.getElementById('count'), listView=document.getElementById('listView'), detailView=document.getElementById('detailView');
+
+function showArchive(){loginView.classList.add('hidden');archiveView.classList.remove('hidden');loadResponses();}
+function showLogin(msg=''){archiveView.classList.add('hidden');loginView.classList.remove('hidden');loginStatus.textContent=msg;}
+function esc(v){const d=document.createElement('div');d.textContent=v??'';return d.innerHTML;}
+function formatDate(v){if(!v)return '';const d=new Date(v);return Number.isNaN(d.getTime())?v:d.toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});}
+
+async function loadResponses(){
+  listView.classList.remove('hidden'); detailView.classList.add('hidden');
+  entries.innerHTML='<div class="empty">Consultando os registros...</div>';
+  const {data,error}=await db.from('respostas').select('id,nome,criado_em,resposta_1,resposta_2,resposta_3,resposta_4,resposta_5,resposta_6').order('criado_em',{ascending:false});
+  if(error){entries.innerHTML='<div class="empty">Não foi possível consultar os registros.<br><br>'+esc(error.message)+'</div>';count.textContent='erro na consulta';return;}
+  count.textContent=`${data.length} ${data.length===1?'registro':'registros'}`;
+  if(!data.length){entries.innerHTML='<div class="empty">Nenhuma resposta foi registrada ainda.</div>';return;}
+  entries.innerHTML=data.map((r,i)=>`<article class="entry fade" data-index="${i}"><div class="entryHead"><div><div class="entryName">${esc(r.nome||'Sem nome')}</div><div class="entryDate">${esc(formatDate(r.criado_em))}</div></div><div class="entryArrow">→</div></div></article>`).join('');
+  entries.querySelectorAll('.entry').forEach(el=>el.addEventListener('click',()=>openDetail(data[Number(el.dataset.index)])));
+}
+function openDetail(r){
+  listView.classList.add('hidden'); detailView.classList.remove('hidden');
+  detailView.innerHTML=`<button class="ghost back" id="backBtn" type="button">← Voltar aos registros</button><h2 class="detailName">${esc(r.nome||'Sem nome')}</h2><div class="detailDate">Registrado em ${esc(formatDate(r.criado_em))}</div>`+
+  QUESTIONS.map((q,i)=>`<div class="answer"><div class="qnum">PERGUNTA ${String(i+1).padStart(2,'0')}</div><div class="question">${esc(q)}</div><div class="response ${r['resposta_'+(i+1)]?'':'emptyAnswer'}">${esc(r['resposta_'+(i+1)]||'Sem resposta registrada.')}</div></div>`).join('');
+  document.getElementById('backBtn').addEventListener('click',()=>{detailView.classList.add('hidden');listView.classList.remove('hidden');});
+}
+
+document.getElementById('loginBtn').addEventListener('click',async()=>{
+  loginStatus.textContent='Entrando...';
+  const email=document.getElementById('email').value.trim(), password=document.getElementById('password').value;
+  if(!email||!password){loginStatus.textContent='Digite seu e-mail e sua senha.';return;}
+  const {error}=await db.auth.signInWithPassword({email,password});
+  if(error){loginStatus.textContent='Não foi possível entrar: '+error.message;return;}
+  loginStatus.textContent=''; showArchive();
+});
+document.getElementById('password').addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('loginBtn').click();});
+document.getElementById('refreshBtn').addEventListener('click',loadResponses);
+document.getElementById('logoutBtn').addEventListener('click',async()=>{await db.auth.signOut();showLogin('Sessão encerrada.');});
+(async()=>{const {data}=await db.auth.getSession();if(data.session)showArchive();})();
+</script>
+</body>
+</html>
